@@ -1,6 +1,7 @@
 package ren.nicholas.robot
 
 import ren.nicholas.robot.cmd._
+import ren.nicholas.robot.model.directions._
 import ren.nicholas.robot.model.{Robot, Table}
 
 class RobotTest extends munit.FunSuite {
@@ -12,19 +13,20 @@ class RobotTest extends munit.FunSuite {
     robot = Robot()
     robot.on(table)
   }
+
   //Placing
   test("should set initial state") {
-    var cmd = PlaceCmd(0, 0, "NORTH")
+    var cmd = PlaceCmd(0, 0, North)
 
     robot.execute(cmd)
 
     assert(robot.state.x == 0)
     assert(robot.state.y == 0)
-    assert(robot.state.direction == "NORTH")
+    assert(robot.state.direction == North)
   }
 
   test("should not set state when initial coordinate is out of boundary") {
-    var cmd = PlaceCmd(6, 7, "NORTH")
+    var cmd = PlaceCmd(6, 7, North)
 
     robot.execute(cmd)
 
@@ -33,7 +35,7 @@ class RobotTest extends munit.FunSuite {
 
   //Rotate
   test("should change to next direction on the left") {
-    var place = PlaceCmd(0, 0, "NORTH")
+    var place = PlaceCmd(0, 0, North)
     var left = LeftCmd()
 
     robot.execute(place)
@@ -41,11 +43,11 @@ class RobotTest extends munit.FunSuite {
 
     assert(robot.state.x == 0)
     assert(robot.state.y == 0)
-    assert(robot.state.direction == "WEST")
+    assert(robot.state.direction == West)
   }
 
   test("should change to next direction on the right") {
-    var place = PlaceCmd(0, 0, "NORTH")
+    var place = PlaceCmd(0, 0, North)
     var right = RightCmd()
 
     robot.execute(place)
@@ -53,6 +55,6 @@ class RobotTest extends munit.FunSuite {
 
     assert(robot.state.x == 0)
     assert(robot.state.y == 0)
-    assert(robot.state.direction == "EAST")
+    assert(robot.state.direction == East)
   }
 }

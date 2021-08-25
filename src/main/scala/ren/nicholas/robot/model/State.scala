@@ -1,5 +1,7 @@
 package ren.nicholas.robot.model
 
-case class State(x: Int, y: Int, direction: String) {
+import ren.nicholas.robot.model.directions.Direction
+
+case class State(x: Int, y: Int, direction: Direction) {
 
 }

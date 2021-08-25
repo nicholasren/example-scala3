@@ -2,7 +2,7 @@ package ren.nicholas.robot
 
 import ren.nicholas.robot.cmd._
 import ren.nicholas.robot.model.directions._
-import ren.nicholas.robot.model.{Robot, Table}
+import ren.nicholas.robot.model.{Robot, State, Table}
 
 class RobotTest extends munit.FunSuite {
   var table: Table = null
@@ -20,9 +20,7 @@ class RobotTest extends munit.FunSuite {
 
     robot.execute(cmd)
 
-    assert(robot.state.x == 0)
-    assert(robot.state.y == 0)
-    assert(robot.state.direction == North)
+    assertEquals(robot.state, State(0, 0, North))
   }
 
   test("should not set state when initial coordinate is out of boundary") {
@@ -30,7 +28,7 @@ class RobotTest extends munit.FunSuite {
 
     robot.execute(cmd)
 
-    assert(robot.state == null)
+    assertEquals(robot.state, null)
   }
 
   //Rotate
@@ -41,9 +39,7 @@ class RobotTest extends munit.FunSuite {
     robot.execute(place)
     robot.execute(left)
 
-    assert(robot.state.x == 0)
-    assert(robot.state.y == 0)
-    assert(robot.state.direction == West)
+    assertEquals(robot.state, State(0, 0, West))
   }
 
   test("should change to next direction on the right") {
@@ -53,8 +49,6 @@ class RobotTest extends munit.FunSuite {
     robot.execute(place)
     robot.execute(right)
 
-    assert(robot.state.x == 0)
-    assert(robot.state.y == 0)
-    assert(robot.state.direction == East)
+    assertEquals(robot.state, State(0, 0, East))
   }
 }

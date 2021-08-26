@@ -5,12 +5,12 @@ import ren.nicholas.robot.model.directions.Direction
 
 class MoveCmd extends Cmd {
 
-  def next(current: State): State = {
-    if (current != null) {
-      val direction: Direction = current.direction
-      State(current.x + direction.deltaX, current.y + direction.deltaY, direction)
-    } else {
-      null
+  def next(current: Option[State]): Option[State] = current.map {
+    state => {
+      val direction: Direction = state.direction
+      val newX = state.x + direction.deltaX
+      val newY = state.y + direction.deltaY
+      State(newX, newY, direction)
     }
   }
 }

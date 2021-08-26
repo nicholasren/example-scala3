@@ -16,40 +16,37 @@ class RobotTest extends munit.FunSuite {
 
   //Placing
   test("should set initial state") {
-    var cmd = PlaceCmd(0, 0, North)
+    robot.execute(PlaceCmd(0, 0, North))
 
-    robot.execute(cmd)
+    assertEquals(robot.state.get, State(0, 0, North))
+  }
 
-    assertEquals(robot.state, State(0, 0, North))
+  test("should ignore subsequent Place command") {
+    robot.execute(PlaceCmd(0, 0, North))
+    robot.execute(PlaceCmd(1, 1, East))
+
+    assertEquals(robot.state.get, State(0, 0, North))
   }
 
   test("should not set state when initial coordinate is out of boundary") {
-    var cmd = PlaceCmd(6, 7, North)
+    robot.execute(PlaceCmd(6, 7, North))
 
-    robot.execute(cmd)
-
-    assertEquals(robot.state, null)
+    assert(robot.state.isEmpty)
   }
 
   //Rotate
   test("should change to next direction on the left") {
-    var place = PlaceCmd(0, 0, North)
-    var left = LeftCmd()
+    robot.execute(PlaceCmd(0, 0, North))
+    robot.execute(LeftCmd())
 
-    robot.execute(place)
-    robot.execute(left)
-
-    assertEquals(robot.state, State(0, 0, West))
+    assertEquals(robot.state.get, State(0, 0, West))
   }
 
   test("should change to next direction on the right") {
-    var place = PlaceCmd(0, 0, North)
-    var right = RightCmd()
+    robot.execute(PlaceCmd(0, 0, North))
+    robot.execute(RightCmd())
 
-    robot.execute(place)
-    robot.execute(right)
-
-    assertEquals(robot.state, State(0, 0, East))
+    assertEquals(robot.state.get, State(0, 0, East))
   }
 
   //Move
@@ -57,7 +54,7 @@ class RobotTest extends munit.FunSuite {
   test("should ignore when current state is invalid") {
     robot.execute(MoveCmd())
 
-    assert(robot.state == null)
+    assert(robot.state.isEmpty)
   }
 
   //valid
@@ -66,6 +63,6 @@ class RobotTest extends munit.FunSuite {
 
     robot.execute(MoveCmd())
 
-    assert(robot.state == State(1, 0, East))
+    assertEquals(robot.state.get, State(1, 0, East))
   }
 }

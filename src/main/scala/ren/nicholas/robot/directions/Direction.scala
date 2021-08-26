@@ -1,4 +1,4 @@
-package ren.nicholas.robot.model.directions
+package ren.nicholas.robot.directions
 
 sealed trait Direction {
   def left: Direction

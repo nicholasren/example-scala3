@@ -2,7 +2,7 @@ package ren.nicholas.robot
 
 import ren.nicholas.robot.cmd.*
 import ren.nicholas.robot.model.*
-import ren.nicholas.robot.model.directions.*
+import ren.nicholas.robot.directions.*
 
 class RobotTest extends munit.FunSuite {
   var table: Table = null

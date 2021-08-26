@@ -1,7 +1,7 @@
 package ren.nicholas.robot.model
 
 import ren.nicholas.robot.cmd.Cmd
-import ren.nicholas.robot.model.directions.*
+import ren.nicholas.robot.directions.*
 
 import java.lang.System.lineSeparator
 

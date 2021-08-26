@@ -2,7 +2,7 @@ package ren.nicholas.robot
 
 import ren.nicholas.robot.cmd.PlaceCmd
 import ren.nicholas.robot.model.Game
-import ren.nicholas.robot.model.directions.East
+import ren.nicholas.robot.directions.East
 
 class GameTest extends munit.FunSuite {
   var game: Game = null

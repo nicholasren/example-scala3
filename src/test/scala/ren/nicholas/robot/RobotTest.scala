@@ -1,8 +1,8 @@
 package ren.nicholas.robot
 
-import ren.nicholas.robot.cmd._
-import ren.nicholas.robot.model._
-import ren.nicholas.robot.model.directions._
+import ren.nicholas.robot.cmd.*
+import ren.nicholas.robot.model.*
+import ren.nicholas.robot.model.directions.*
 
 class RobotTest extends munit.FunSuite {
   var table: Table = null
@@ -50,5 +50,22 @@ class RobotTest extends munit.FunSuite {
     robot.execute(right)
 
     assertEquals(robot.state, State(0, 0, East))
+  }
+
+  //Move
+  //TODO: when initial state is invalid
+  test("should ignore when current state is invalid") {
+    robot.execute(MoveCmd())
+
+    assert(robot.state == null)
+  }
+
+  //valid
+  test("should change x and y by delta") {
+    robot.execute(PlaceCmd(0, 0, East))
+
+    robot.execute(MoveCmd())
+
+    assert(robot.state == State(1, 0, East))
   }
 }

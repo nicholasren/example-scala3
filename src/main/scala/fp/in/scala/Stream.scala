@@ -19,8 +19,12 @@ object Stream:
 
   /**
    * corecursive function, which produces data.
+   *
    * @param start intial state with type `S`
-   * @param fun `S => Option[A, S]` take an state and optionaly produce a new element (with type `A`) and state(with type `S`)
+   * @param fun   `S => Option[A, S]` take an state and
+   *              optionaly produce a new element (with type `A`) and a new state(with type `S`).
+   *              The new state will be used as an input for next run
+   *              `None` indicates that now more values will be produced.
    * @tparam A type of produced data
    * @tparam S type of inital and intermediate state
    * @return a finite or infinite stream of data
@@ -103,6 +107,26 @@ enum Stream[+A]:
   // `acc` may never get evaluated if `predicate(element)` is false
   def forAll(predicate: A => Boolean): Boolean =
     foldRight(true)((element, acc) => predicate(element) && acc)
+
+  def zipAll[B](that: Stream[B]): Stream[(Option[A], Option[B])] =
+    unfold(this, that) {
+      case (Empty, Empty) => None
+      case (Cons(thisHead, thisTail), Empty) => {
+        val value = (Some(thisHead()), None)
+        val nextState = (thisTail(), Empty)
+        Some(value, nextState)
+      }
+      case (Empty, Cons(thatHead, thatTail)) => {
+        val value = (None, Some(thatHead()))
+        val nextState = (Empty, thatTail())
+        Some(value, nextState)
+      }
+      case (Cons(thisHead, thisTail), Cons(thatHead, thatTail)) => {
+        val value = (Some(thisHead()), Some(thatHead()))
+        val nextState = (thisTail(), thatTail())
+        Some(value, nextState)
+      }
+    }
 
   def tail: Stream[A] = this match
     case Empty => Empty

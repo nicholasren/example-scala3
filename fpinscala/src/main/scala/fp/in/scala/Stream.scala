@@ -1,7 +1,6 @@
 package fp.in.scala
 
 import fp.in.scala
-import org.graalvm.compiler.asm.amd64.AMD64Assembler.VexFloatCompareOp.Predicate
 
 object Stream:
   //memorised version of Cons(h, t)

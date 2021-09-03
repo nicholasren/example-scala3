@@ -1,8 +1,8 @@
 package ren.nicholas.robot
 
 import ren.nicholas.robot.cmd.*
-import ren.nicholas.robot.model.*
 import ren.nicholas.robot.directions.*
+import ren.nicholas.robot.model.*
 
 class RobotTest extends munit.FunSuite {
   var table: Table = null
@@ -64,5 +64,24 @@ class RobotTest extends munit.FunSuite {
     robot.execute(MoveCmd())
 
     assertEquals(robot.state.get, State(1, 0, East))
+  }
+
+  test("should ignore when next step is invalid") {
+    robot.execute(PlaceCmd(0, 0, North))
+
+    robot.execute(MoveCmd())
+
+    assertEquals(robot.state.get, State(0, 0, North))
+  }
+
+  test("should continue valid commands after invalid") {
+    robot.execute(PlaceCmd(0, 0, North))
+
+    robot.execute(MoveCmd()) // ignore
+    robot.execute(RightCmd()) // accept
+    robot.execute(RightCmd()) // accept
+    robot.execute(MoveCmd()) // accept
+
+    assertEquals(robot.state.get, State(0, 1, South))
   }
 }

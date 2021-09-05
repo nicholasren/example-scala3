@@ -29,3 +29,11 @@ lazy val fpinscala = project
     version := "0.1.0",
     commonSettings
   )
+
+lazy val water_pouring = project
+  .in(file("water-pouring"))
+  .settings(
+    name := "water-pouring",
+    version := "0.1.0",
+    commonSettings
+  )

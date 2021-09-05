@@ -39,6 +39,8 @@ class Pouring(capacity: Vector[Int]) {
 
     def extend(move: Move) = new Path(move :: history, move.change(endState))
 
+    def length = history.length
+
     override def toString = (history.reverse mkString " ") + " -->" + endState
   }
 
@@ -71,7 +73,11 @@ class Pouring(capacity: Vector[Int]) {
     for {
       pathSet <- pathSets
       path <- pathSet
-      if path.endState contains target
+      if path.endState.contains(target)
     } yield path
+  }
+
+  def shortestSolution(target: Int): Option[Path] = {
+    solutions(target).minByOption(_.length)
   }
 }

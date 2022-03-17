@@ -37,3 +37,11 @@ lazy val water_pouring = project
     version := "0.1.0",
     commonSettings
   )
+
+lazy val algorithm = project
+  .in(file("algorithm"))
+  .settings(
+    name := "algorithm",
+    version := "0.1.0",
+    commonSettings
+  )

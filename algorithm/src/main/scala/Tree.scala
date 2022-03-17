@@ -25,20 +25,27 @@ object Node:
 
 
 object TreeApp extends App {
-  var tree: Node[Int] = Node(3,
-    Some(
-      Node(5,
-        Some(Node(1, None, None)),
-        Some(Node(4, None, None))
-      )
-    ),
-    Some(
-      Node(2,
-        Some(Node(6, None, None)),
-        None
+  val nil = None
+
+  def s[T](n: Node[T]) = Some(n)
+
+  def node[T](t: T, left: Option[Node[T]], right: Option[Node[T]]) = Node(t, left, right)
+
+  var tree: Node[Int] =
+    node(3,
+      s(
+        node(5,
+          s(node(1, nil, nil)),
+          s(node(4, nil, nil))
+        )
+      ),
+      s(
+        node(2,
+          s(node(6, nil, nil)),
+          nil
+        )
       )
     )
-  )
 
   println(tree.bfs(4))
 }

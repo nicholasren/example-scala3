@@ -21,7 +21,7 @@ object Stream:
    *
    * @param start intial state with type `S`
    * @param fun   `S => Option[A, S]` take an state and
-   *              optionaly produce a new element (with type `A`) and a new state(with type `S`).
+   *              optionally produce a new element (with type `A`) and a new state(with type `S`).
    *              The new state will be used as an input for next run
    *              `None` indicates that now more values will be produced.
    * @tparam A type of produced data

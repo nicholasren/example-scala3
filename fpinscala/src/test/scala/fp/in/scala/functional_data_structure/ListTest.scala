@@ -21,4 +21,9 @@ class ListTest extends FunSuite {
     assert(list.dropWhile(_ % 2 != 0) == List(2, 3))
     assert(list.dropWhile(_ <= 2) == List(3))
   }
+
+  test("map") {
+    assert(list.map(_ * 2) == List(2, 4, 6))
+    assert(list.transform(_ * 2) == List(2, 4, 6))
+  }
 }

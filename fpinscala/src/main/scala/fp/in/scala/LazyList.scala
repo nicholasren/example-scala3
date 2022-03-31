@@ -2,17 +2,17 @@ package fp.in.scala
 
 import fp.in.scala
 
-object Stream:
+object LazyList:
   //memorised version of Cons(h, t)
-  def cons[A](head: => A, tail: => Stream[A]): Stream[A] = {
+  def cons[A](head: => A, tail: => LazyList[A]): LazyList[A] = {
     lazy val _head = head
     lazy val _tail = tail
     Cons(() => _head, () => _tail)
   }
 
-  def empty[A]: Stream[A] = Empty
+  def empty[A]: LazyList[A] = Empty
 
-  def apply[A](as: A*): Stream[A] =
+  def apply[A](as: A*): LazyList[A] =
     if as.isEmpty then empty
     else cons(as.head, apply(as.tail *))
 
@@ -28,17 +28,17 @@ object Stream:
    * @tparam S type of inital and intermediate state
    * @return a finite or infinite stream of data
    */
-  def unfold[A, S](start: S)(fun: S => Option[(A, S)]): Stream[A] =
+  def unfold[A, S](start: S)(fun: S => Option[(A, S)]): LazyList[A] =
     fun(start) match {
       case Some(a, state) => cons(a, unfold(state)(fun))
       case None => empty
     }
 
-enum Stream[+A]:
+enum LazyList[+A]:
   case Empty
-  case Cons(_head: () => A, _tail: () => Stream[A])
+  case Cons(_head: () => A, _tail: () => LazyList[A])
 
-  import Stream.*
+  import LazyList.*
 
   /**
    * NOTE: type notation `=> B` indicates that the argument may never get evaluated
@@ -54,30 +54,34 @@ enum Stream[+A]:
 
   def headOption: Option[A] = foldRight(None: Option[A])((element, _) => Some(element))
 
-  def map[B](function: A => B): Stream[B] = foldRight(empty[B]) {
+  def map[B](function: A => B): LazyList[B] = foldRight(empty[B]) {
     (element, acc) => cons(function(element), acc)
   }
 
-  def filter(predicate: A => Boolean): Stream[A] = foldRight(empty[A]) {
+  def filter(predicate: A => Boolean): LazyList[A] = foldRight(empty[A]) {
     (el, acc) => if predicate(el) then cons(el, acc) else acc
   }
 
-  def append[A2 >: A](that: => Stream[A2]): Stream[A2] = foldRight(that) {
+  def append[A2 >: A](that: => LazyList[A2]): LazyList[A2] = foldRight(that) {
     (element, acc) => cons(element, acc)
   }
 
-  def flatMap[B](mapper: A => Stream[B]): Stream[B] = foldRight(empty[B]) {
+  def flatMap[B](mapper: A => LazyList[B]): LazyList[B] = foldRight(empty[B]) {
     (element, acc) => mapper(element).append(acc)
   }
 
-  //non tail recursive
-  def to_list_non_tail_recursive: List[A] = this match
-    case Cons(head, tail) => head() :: tail().to_list_non_tail_recursive
+  /**
+   * non tail recursive version of `toList`
+   *
+   * @return List[A]
+   */
+  def toList_non_tailrec: List[A] = this match
+    case Cons(head, tail) => head() :: tail().toList_non_tailrec
     case Empty => Nil
 
   def toList: List[A] =
     @annotation.tailrec
-    def go(stream: Stream[A], acc: List[A]): List[A] =
+    def go(stream: LazyList[A], acc: List[A]): List[A] =
       stream match
         case Cons(head, tail) => go(tail(), head() :: acc)
         case Empty => acc.reverse
@@ -85,16 +89,16 @@ enum Stream[+A]:
     go(this, Nil)
 
 
-  def take(n: Int): Stream[A] = this match
+  def take(n: Int): LazyList[A] = this match
     case Cons(head, tail) if n > 1 => cons(head(), tail().take(n - 1))
     case Cons(head, tail) if n == 1 => cons(head(), empty)
     case _ => empty
 
-  def drop(n: Int): Stream[A] = this match
+  def drop(n: Int): LazyList[A] = this match
     case Cons(_, tail) if n > 0 => tail().drop(n - 1)
     case _ => this
 
-  def takeWhile(predicate: A => Boolean): Stream[A] =
+  def takeWhile(predicate: A => Boolean): LazyList[A] =
     foldRight(empty[A]) {
       (element, acc) =>
         if predicate(element) then
@@ -107,7 +111,7 @@ enum Stream[+A]:
   def forAll(predicate: A => Boolean): Boolean =
     foldRight(true)((element, acc) => predicate(element) && acc)
 
-  def zipAll[B](that: Stream[B]): Stream[(Option[A], Option[B])] =
+  def zipAll[B](that: LazyList[B]): LazyList[(Option[A], Option[B])] =
     unfold(this, that) {
       case (Empty, Empty) => None
       case (Cons(thisHead, thisTail), Empty) => {
@@ -127,7 +131,7 @@ enum Stream[+A]:
       }
     }
 
-  def tail: Stream[A] = this match
+  def tail: LazyList[A] = this match
     case Empty => Empty
     case Cons(head, tail) => tail()
 

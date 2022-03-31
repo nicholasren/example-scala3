@@ -3,7 +3,7 @@ package fp.in.scala.functional_data_structure
 import munit.FunSuite
 
 class ListTest extends FunSuite {
-  private val list = List(1, 2, 3)
+  private val list: List[Int] = List(1, 2, 3)
   test("head") {
     assert(list.head == 1)
   }
@@ -24,6 +24,5 @@ class ListTest extends FunSuite {
 
   test("map") {
     assert(list.map(_ * 2) == List(2, 4, 6))
-    assert(list.transform(_ * 2) == List(2, 4, 6))
   }
 }

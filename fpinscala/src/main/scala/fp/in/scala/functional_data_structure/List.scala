@@ -36,7 +36,7 @@ enum List[+A]:
    * Here is another version:
    * {{{
    *  def map[B](f: A => B): List[B] = as match {
-   *      case Cons(head, tail) => Cons(f(head), tail.transform(f))
+   *      case Cons(head, tail) => Cons(f(head), tail.map(f))
    *      case Nil => Nil
    *  }
    * }}}

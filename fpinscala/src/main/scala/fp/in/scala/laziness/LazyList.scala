@@ -1,6 +1,7 @@
-package fp.in.scala
+package fp.in.scala.laziness
 
 import fp.in.scala
+import fp.in.scala.laziness.LazyList
 
 object LazyList:
   //memorised version of Cons(h, t)

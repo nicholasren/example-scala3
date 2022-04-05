@@ -1,4 +1,6 @@
-package fp.in.scala
+package fp.in.scala.laziness
+
+import fp.in.scala.laziness.LazyList
 
 class LazyListTest extends munit.FunSuite {
   private val lazyList = LazyList(1, 2, 3, 4, 5, 6)

@@ -1,6 +1,6 @@
 package fp.in.scala.functional_state
 
-import fp.in.scala.functional_state.SimpleRandGenerator.{ints, nonNegativeEven, nonNegativeInt}
+import fp.in.scala.functional_state.SimpleRandGenerator.{double, ints, nonNegativeEven, nonNegativeInt}
 
 class RandTest extends munit.FunSuite {
 
@@ -26,5 +26,11 @@ class RandTest extends munit.FunSuite {
     val xs = ints(100)(rng)
 
     assert(xs._1.length == 100)
+  }
+
+  test("double") {
+    val d: Double = double(rng)._1
+
+    assert(d > 0 && d < 1)
   }
 }

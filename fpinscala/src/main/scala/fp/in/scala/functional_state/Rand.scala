@@ -63,3 +63,9 @@ object SimpleRandGenerator:
     rng => go(List())(count)(rng)
 
   def nonNegativeEven: Rand[Int] = Rand.map(nonNegativeInt)(i => i - i % 2)
+
+  def double: Rand[Double] =
+    rng =>
+      val next = rng.nextInt
+      (next._1.toDouble / Int.MaxValue, next._2)
+

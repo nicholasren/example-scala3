@@ -1,7 +1,7 @@
 package ren.nicholas.robot
 
 import ren.nicholas.robot.cmd.*
-import ren.nicholas.robot.directions.*
+import ren.nicholas.robot.directions.Direction._
 import ren.nicholas.robot.model.*
 
 class RobotTest extends munit.FunSuite {

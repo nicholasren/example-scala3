@@ -1,52 +1,20 @@
 package ren.nicholas.robot.directions
 
-sealed trait Direction {
-  def left: Direction
+import ren.nicholas.robot.directions.Direction.North
 
-  def right: Direction
+enum Direction:
+  case North, East, South, West
 
-  def deltaX: Int
+  def left: Direction = Direction.fromOrdinal((this.ordinal + 3) % 4)
 
-  def deltaY: Int
-}
+  def right: Direction = Direction.fromOrdinal((this.ordinal + 1) % 4)
 
-case object North extends Direction {
-  override def right: Direction = East
+  def deltaX: Int = this match
+    case North | South => 0
+    case East => 1
+    case West => -1
 
-  override def left: Direction = West
-
-  override def deltaX: Int = 0
-
-  override def deltaY: Int = -1
-}
-
-case object East extends Direction {
-  override def right: Direction = South
-
-  override def left: Direction = North
-
-  override def deltaX: Int = 1
-
-  override def deltaY: Int = 0
-}
-
-case object South extends Direction {
-  override def right: Direction = West
-
-  override def left: Direction = East
-
-  override def deltaX: Int = 0
-
-  override def deltaY: Int = 1
-}
-
-
-case object West extends Direction {
-  override def right: Direction = North
-
-  override def left: Direction = South
-
-  override def deltaX: Int = -1
-
-  override def deltaY: Int = 0
-}
+  def deltaY: Int = this match
+    case West | East => 0
+    case North => -1
+    case South => 1

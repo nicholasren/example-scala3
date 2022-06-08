@@ -20,4 +20,19 @@ class FacingTest extends munit.FunSuite {
       W -> N
     ).foreach((from, to) => assertEquals(from.right, to))
   }
+
+  test("delta") {
+    assertEquals(N.deltaX, 0)
+    assertEquals(N.deltaY, -1)
+
+    assertEquals(S.deltaX, 0)
+    assertEquals(S.deltaY, 1)
+
+    assertEquals(E.deltaX, 1)
+    assertEquals(E.deltaY, 0)
+
+
+    assertEquals(W.deltaX, -1)
+    assertEquals(W.deltaY, 0)
+  }
 }

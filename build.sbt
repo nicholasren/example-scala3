@@ -4,8 +4,7 @@ val scala3Version = "3.1.2"
 lazy val commonSettings = Seq(
   version := "0.1.0",
   scalaVersion := scala3Version,
-  libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test",
-  libraryDependencies += "org.scalameta" %% "munit" % "0.7.28" % Test,
+  libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.12" % "test"
 )
 
 lazy val root = project

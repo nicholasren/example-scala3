@@ -1,14 +1,16 @@
 package ren.nicholas.robot
 
 import ren.nicholas.robot.cmd.*
-import ren.nicholas.robot.directions.Direction._
+import ren.nicholas.robot.model.Direction.*
 import ren.nicholas.robot.model.*
+import org.scalatest.*
+import org.scalatest.funsuite.AnyFunSuite
 
-class RobotTest extends munit.FunSuite {
+class RobotTest extends AnyFunSuite with BeforeAndAfter {
   var table: Table = null
   var robot: Robot = null
 
-  override def beforeEach(context: BeforeEach) = {
+  before {
     table = Table(5, 5)
     robot = Robot()
     robot.on(table)
@@ -18,14 +20,14 @@ class RobotTest extends munit.FunSuite {
   test("should set initial state") {
     robot.execute(PlaceCmd(0, 0, North))
 
-    assertEquals(robot.state.get, State(0, 0, North))
+    assert(robot.state.get == State(0, 0, North))
   }
 
   test("should ignore subsequent Place command") {
     robot.execute(PlaceCmd(0, 0, North))
     robot.execute(PlaceCmd(1, 1, East))
 
-    assertEquals(robot.state.get, State(0, 0, North))
+    assert(robot.state.get == State(0, 0, North))
   }
 
   test("should not set state when initial coordinate is out of boundary") {
@@ -39,14 +41,14 @@ class RobotTest extends munit.FunSuite {
     robot.execute(PlaceCmd(0, 0, North))
     robot.execute(LeftCmd())
 
-    assertEquals(robot.state.get, State(0, 0, West))
+    assert(robot.state.get == State(0, 0, West))
   }
 
   test("should change to next direction on the right") {
     robot.execute(PlaceCmd(0, 0, North))
     robot.execute(RightCmd())
 
-    assertEquals(robot.state.get, State(0, 0, East))
+    assert(robot.state.get == State(0, 0, East))
   }
 
   //Move
@@ -63,7 +65,7 @@ class RobotTest extends munit.FunSuite {
 
     robot.execute(MoveCmd())
 
-    assertEquals(robot.state.get, State(1, 0, East))
+    assert(robot.state.get == State(1, 0, East))
   }
 
   test("should ignore when next step is invalid") {
@@ -71,7 +73,7 @@ class RobotTest extends munit.FunSuite {
 
     robot.execute(MoveCmd())
 
-    assertEquals(robot.state.get, State(0, 0, North))
+    assert(robot.state.get == State(0, 0, North))
   }
 
   test("should continue valid commands after invalid") {
@@ -82,6 +84,6 @@ class RobotTest extends munit.FunSuite {
     robot.execute(RightCmd()) // accept
     robot.execute(MoveCmd()) // accept
 
-    assertEquals(robot.state.get, State(0, 1, South))
+    assert(robot.state.get == State(0, 1, South))
   }
 }

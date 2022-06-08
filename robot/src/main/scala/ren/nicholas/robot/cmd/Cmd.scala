@@ -1,7 +1,6 @@
 package ren.nicholas.robot.cmd
 
-import ren.nicholas.robot.directions.Direction
-import ren.nicholas.robot.model.State
+import ren.nicholas.robot.model.{Direction, State}
 
 sealed trait Cmd {
   def next(current: Option[State]): Option[State]

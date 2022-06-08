@@ -1,6 +1,6 @@
-package ren.nicholas.robot.directions
+package ren.nicholas.robot.model
 
-import ren.nicholas.robot.directions.Direction.North
+import ren.nicholas.robot.model.Direction.North
 
 enum Direction:
   case North, East, South, West

@@ -2,12 +2,14 @@ package ren.nicholas.robot
 
 import ren.nicholas.robot.cmd.PlaceCmd
 import ren.nicholas.robot.model.Game
-import ren.nicholas.robot.directions.Direction._
+import ren.nicholas.robot.model.Direction.*
+import org.scalatest.*
+import org.scalatest.funsuite.AnyFunSuite
 
-class GameTest extends munit.FunSuite {
+class GameTest extends AnyFunSuite with BeforeAndAfter {
   var game: Game = null
 
-  override def beforeEach(context: BeforeEach) = {
+  before {
     game = Game(5, 5)
   }
 
@@ -21,7 +23,7 @@ class GameTest extends munit.FunSuite {
         |O O O O O
         |""".stripMargin.strip()
 
-    assertEquals(game.print(), expected)
+    assert(game.print() == expected)
   }
 
   test("should print robot's position") {
@@ -36,6 +38,6 @@ class GameTest extends munit.FunSuite {
         |O O O O O
         |""".stripMargin.strip()
 
-    assertEquals(game.print(), expected)
+    assert(game.print() == expected)
   }
 }

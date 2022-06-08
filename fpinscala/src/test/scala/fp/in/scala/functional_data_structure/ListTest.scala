@@ -1,8 +1,8 @@
 package fp.in.scala.functional_data_structure
 
-import munit.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class ListTest extends FunSuite {
+class ListTest extends AnyFunSuite {
   private val list: List[Int] = List(1, 2, 3)
   test("head") {
     assert(list.head == 1)

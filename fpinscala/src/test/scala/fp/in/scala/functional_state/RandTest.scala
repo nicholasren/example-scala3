@@ -2,7 +2,9 @@ package fp.in.scala.functional_state
 
 import fp.in.scala.functional_state.SimpleRandGenerator.{double, ints, nonNegativeEven, nonNegativeInt}
 
-class RandTest extends munit.FunSuite {
+import org.scalatest.funsuite.AnyFunSuite
+
+class RandTest extends AnyFunSuite {
 
   private val rng: RandGenerator = SimpleRandGenerator(42)
 

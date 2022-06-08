@@ -2,60 +2,62 @@ package fp.in.scala.laziness
 
 import fp.in.scala.laziness.LazyList
 
-class LazyListTest extends munit.FunSuite {
+import org.scalatest.funsuite.AnyFunSuite
+
+class LazyListTest extends AnyFunSuite {
   private val lazyList = LazyList(1, 2, 3, 4, 5, 6)
   //headOption
   test("headOption") {
-    assertEquals(lazyList.headOption, Some(1))
+    assert(lazyList.headOption == Some(1))
   }
 
   //to_list_non_tail_recursive
   test("to_list_non_tail_recursive") {
-    assertEquals(lazyList.toList_non_tailrec, List(1, 2, 3, 4, 5, 6))
+    assert(lazyList.toList_non_tailrec == List(1, 2, 3, 4, 5, 6))
   }
 
   //toList
   test("toList") {
-    assertEquals(lazyList.toList, List(1, 2, 3, 4, 5, 6))
+    assert(lazyList.toList == List(1, 2, 3, 4, 5, 6))
   }
 
   test("take") {
-    assertEquals(lazyList.take(2).toList, List(1, 2))
+    assert(lazyList.take(2).toList == List(1, 2))
   }
 
   test("drop") {
-    assertEquals(lazyList.drop(2).toList, List(3, 4, 5, 6))
+    assert(lazyList.drop(2).toList == List(3, 4, 5, 6))
   }
 
   test("takeWhile") {
-    assertEquals(lazyList.takeWhile(_ < 3).toList, List(1, 2))
+    assert(lazyList.takeWhile(_ < 3).toList == List(1, 2))
   }
 
   test("foldRight: accumulate from inside out") {
-    assertEquals(lazyList.foldRight(0)(_ + _), 21)
+    assert(lazyList.foldRight(0)(_ + _) == 21)
   }
 
   test("forAll") {
-    assertEquals(lazyList.forAll(_ > 0), true)
-    assertEquals(LazyList(-1, 1, 2, -3).forAll(_ > 0), false)
+    assert(lazyList.forAll(_ > 0))
+    assert(LazyList(-1, 1, 2, -3).forAll(_ > 0) == false)
   }
 
   test("map") {
-    assertEquals(lazyList.map(_ + 1).toList, List(2, 3, 4, 5, 6, 7))
+    assert(lazyList.map(_ + 1).toList == List(2, 3, 4, 5, 6, 7))
   }
 
   test("filter") {
-    assertEquals(lazyList.filter(_ % 2 == 0).toList, List(2, 4, 6))
+    assert(lazyList.filter(_ % 2 == 0).toList == List(2, 4, 6))
   }
 
   test("flatMap") {
-    assertEquals(lazyList.flatMap(e => LazyList(s"$e", s"$e$e")).toList, List("1", "11", "2", "22", "3", "33", "4", "44", "5", "55", "6", "66"))
+    assert(lazyList.flatMap(e => LazyList(s"$e", s"$e$e")).toList == List("1", "11", "2", "22", "3", "33", "4", "44", "5", "55", "6", "66"))
   }
 
   test("zipAll: should produce pair of elements from both stream") {
-    assertEquals(LazyList(1, 2, 3).zipAll(LazyList("a", "b", "c")).toList, List((Some(1), Some("a")), (Some(2), Some("b")), (Some(3), Some("c"))))
-    assertEquals(LazyList(1, 2, 3).zipAll(LazyList("a", "b")).toList, List((Some(1), Some("a")), (Some(2), Some("b")), (Some(3), None)))
-    assertEquals(LazyList(1, 2).zipAll(LazyList("a", "b", "c")).toList, List((Some(1), Some("a")), (Some(2), Some("b")), (None, Some("c"))))
+    assert(LazyList(1, 2, 3).zipAll(LazyList("a", "b", "c")).toList == List((Some(1), Some("a")), (Some(2), Some("b")), (Some(3), Some("c"))))
+    assert(LazyList(1, 2, 3).zipAll(LazyList("a", "b")).toList == List((Some(1), Some("a")), (Some(2), Some("b")), (Some(3), None)))
+    assert(LazyList(1, 2).zipAll(LazyList("a", "b", "c")).toList == List((Some(1), Some("a")), (Some(2), Some("b")), (None, Some("c"))))
   }
 
   test("unfold: fibonacci") {
@@ -67,6 +69,6 @@ class LazyListTest extends munit.FunSuite {
       }
     }
 
-    assertEquals(fibs().take(7).toList, List(0, 1, 1, 2, 3, 5, 8))
+    assert(fibs().take(7).toList == List(0, 1, 1, 2, 3, 5, 8))
   }
 }

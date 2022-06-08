@@ -1,9 +1,9 @@
 package fp.in.scala.functional_data_structure
 
 import fp.in.scala.functional_data_structure.Tree.{Branch, Leaf}
-import munit.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class TreeTest extends FunSuite {
+class TreeTest extends AnyFunSuite {
   private val tree: Tree[Int] =
     Branch(
       Branch(

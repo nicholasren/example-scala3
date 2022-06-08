@@ -1,4 +1,6 @@
-class PouringTest extends munit.FunSuite {
+import org.scalatest.funsuite.AnyFunSuite
+
+class PouringTest extends AnyFunSuite {
   test("shortestSolution") {
     val testData = Map(
       (3, 5) -> 4,

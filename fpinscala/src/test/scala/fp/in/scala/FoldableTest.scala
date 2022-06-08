@@ -1,14 +1,14 @@
 package fp.in.scala
 
-import munit.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class FoldableTest extends FunSuite {
+class FoldableTest extends AnyFunSuite {
 
   test("foldable list") {
     val xs = List(1, 2, 3)
 
     def sum(xs: List[Int])(using Foldable[List]) = xs.foldWith(0)((a, b) => a + b)
 
-    assertEquals(sum(xs), 6)
+    assert(sum(xs) ==  6)
   }
 }

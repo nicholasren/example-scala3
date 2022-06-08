@@ -18,12 +18,12 @@ case class Game(width: Int, height: Int) {
     robot.on(table)
   }
 
-  def execute(cmd: Cmd) = robot.execute(cmd)
+  def execute(cmd: Cmd): Unit = robot.execute(cmd)
 
-  def print(): String = (0 to width - 1)
+  def print(): String = (0 until width)
     .map {
       row =>
-        (0 to height - 1).map {
+        (0 until height).map {
           column => symbol(row, column)
         }.mkString(" ")
     }.mkString(lineSeparator())

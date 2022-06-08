@@ -13,4 +13,3 @@ class Robot:
     val newState = cmd.next(state)
     if table.valid(newState) then
       this.state = newState
-  end execute

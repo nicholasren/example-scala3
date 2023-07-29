@@ -1,23 +1,23 @@
 class Pouring(capacity: Vector[Int]) {
 
   //States
-  type State = Vector[Int]
-  val initialState = capacity.map(x => 0)
+  private type State = Vector[Int]
+  private val initialState = capacity.map(x => 0)
 
   //Moves
   trait Move {
     def change(state: State): State
   }
 
-  case class Empty(glass: Int) extends Move {
+  private case class Empty(glass: Int) extends Move {
     def change(state: State): State = state.updated(glass, 0)
   }
 
-  case class Fill(glass: Int) extends Move {
+  private case class Fill(glass: Int) extends Move {
     def change(state: State): State = state.updated(glass, capacity(glass))
   }
 
-  case class Pour(from: Int, to: Int) extends Move {
+  private case class Pour(from: Int, to: Int) extends Move {
     def change(state: State): State = {
       val amount = state(from).min(capacity(to) - state(to))
       state
@@ -39,22 +39,22 @@ class Pouring(capacity: Vector[Int]) {
 
     def extend(move: Move) = new Path(move :: history, move.change(endState))
 
-    def length = history.length
+    def length: Int = history.length
 
-    override def toString = (history.reverse mkString " ") + " -->" + endState
+    override def toString: String = (history.reverse mkString " ") + " -->" + endState
   }
 
-  val initialPath = new Path(List(), initialState)
+  private val initialPath = new Path(List(), initialState)
 
-  val glasses = 0 until capacity.length
+  val glasses: Seq[Int] = capacity.indices
 
-  val moves =
+  private val moves =
     (for (g <- glasses) yield Empty(g)) ++
       (for (g <- glasses) yield Fill(g)) ++
       (for (from <- glasses; to <- glasses if from != to) yield Pour(from, to))
 
 
-  def from(paths: Set[Path], explored: Set[State]): LazyList[Set[Path]] = {
+  private def from(paths: Set[Path], explored: Set[State]): LazyList[Set[Path]] = {
     if (paths.isEmpty) {
       LazyList.empty
     } else {
@@ -63,11 +63,11 @@ class Pouring(capacity: Vector[Int]) {
         next <- moves.map(path.extend)
         if !(explored contains next.endState)
       } yield next
-      from(more, explored ++ (more.map(_.endState))).appended(paths)
+      from(more, explored ++ more.map(_.endState)).appended(paths)
     }
   }
 
-  val pathSets = from(Set(initialPath), Set(initialState))
+  private val pathSets = from(Set(initialPath), Set(initialState))
 
   def solutions(target: Int): LazyList[Path] = {
     for {

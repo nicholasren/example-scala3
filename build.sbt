@@ -1,10 +1,10 @@
 import sbt.Keys.libraryDependencies
 
-val scala3Version = "3.1.2"
+val scala3Version = "3.3.0"
 lazy val commonSettings = Seq(
   version := "0.1.0",
   scalaVersion := scala3Version,
-  libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.12" % "test"
+  libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.15" % "test"
 )
 
 lazy val root = project

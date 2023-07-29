@@ -8,7 +8,7 @@ class LazyListTest extends AnyFunSuite {
   private val lazyList = LazyList(1, 2, 3, 4, 5, 6)
   //headOption
   test("headOption") {
-    assert(lazyList.headOption == Some(1))
+    assert(lazyList.headOption.contains(1))
   }
 
   //to_list_non_tail_recursive

@@ -1,11 +1,10 @@
 package fp.in.scala.laziness
 
 import fp.in.scala
-import fp.in.scala.laziness.LazyList
 
 object LazyList:
   //memorised version of Cons(h, t)
-  def cons[A](head: => A, tail: => LazyList[A]): LazyList[A] = {
+  private def cons[A](head: => A, tail: => LazyList[A]): LazyList[A] = {
     lazy val _head = head
     lazy val _tail = tail
     Cons(() => _head, () => _tail)
@@ -20,13 +19,13 @@ object LazyList:
   /**
    * corecursive function, which produces data.
    *
-   * @param start intial state with type `S`
+   * @param start initial state with type `S`
    * @param fun   `S => Option[A, S]` take an state and
    *              optionally produce a new element (with type `A`) and a new state(with type `S`).
    *              The new state will be used as an input for next run
-   *              `None` indicates that now more values will be produced.
+   *              `None` indicates that no more values will be produced.
    * @tparam A type of produced data
-   * @tparam S type of inital and intermediate state
+   * @tparam S type of initial and intermediate state
    * @return a finite or infinite stream of data
    */
   def unfold[A, S](start: S)(fun: S => Option[(A, S)]): LazyList[A] =
@@ -36,7 +35,7 @@ object LazyList:
     }
 
 enum LazyList[+A]:
-  case Empty
+  private case Empty
   case Cons(_head: () => A, _tail: () => LazyList[A])
 
   import LazyList.*
@@ -63,7 +62,7 @@ enum LazyList[+A]:
     (el, acc) => if predicate(el) then cons(el, acc) else acc
   }
 
-  def append[A2 >: A](that: => LazyList[A2]): LazyList[A2] = foldRight(that) {
+  private def append[A2 >: A](that: => LazyList[A2]): LazyList[A2] = foldRight(that) {
     (element, acc) => cons(element, acc)
   }
 
@@ -115,21 +114,18 @@ enum LazyList[+A]:
   def zipAll[B](that: LazyList[B]): LazyList[(Option[A], Option[B])] =
     unfold(this, that) {
       case (Empty, Empty) => None
-      case (Cons(thisHead, thisTail), Empty) => {
+      case (Cons(thisHead, thisTail), Empty) =>
         val value = (Some(thisHead()), None)
         val nextState = (thisTail(), Empty)
         Some(value, nextState)
-      }
-      case (Empty, Cons(thatHead, thatTail)) => {
+      case (Empty, Cons(thatHead, thatTail)) =>
         val value = (None, Some(thatHead()))
         val nextState = (Empty, thatTail())
         Some(value, nextState)
-      }
-      case (Cons(thisHead, thisTail), Cons(thatHead, thatTail)) => {
+      case (Cons(thisHead, thisTail), Cons(thatHead, thatTail)) =>
         val value = (Some(thisHead()), Some(thatHead()))
         val nextState = (thisTail(), thatTail())
         Some(value, nextState)
-      }
     }
 
   def tail: LazyList[A] = this match

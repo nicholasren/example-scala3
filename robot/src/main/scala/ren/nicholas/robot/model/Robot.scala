@@ -5,11 +5,11 @@ import ren.nicholas.robot.model.{State, Table}
 
 class Robot:
   var state: Option[State] = None
-  var table: Table = null
+  var table: Table = _
 
-  def on(table: Table) = this.table = table
+  def on(table: Table): Unit = this.table = table
 
-  def execute(cmd: Cmd) =
+  def execute(cmd: Cmd): Unit =
     val newState = cmd.next(state)
     if table.valid(newState) then
       this.state = newState

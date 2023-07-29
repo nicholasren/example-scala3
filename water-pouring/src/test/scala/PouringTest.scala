@@ -13,7 +13,7 @@ class PouringTest extends AnyFunSuite {
       val solution = pouring.shortestSolution(target)
 
       assert(solution.isDefined)
-      assert(solution.get.endState.find(_ == target).isDefined)
+      assert(solution.get.endState.contains(target))
     })
   }
 
@@ -28,8 +28,8 @@ class PouringTest extends AnyFunSuite {
 
       val solutions = pouring.solutions(target)
 
-      assert(solutions.headOption.isDefined)
-      assert(solutions.head.endState.find(_ == target).isDefined)
+      assert(solutions.nonEmpty)
+      assert(solutions.head.endState.contains(target))
     })
   }
 }

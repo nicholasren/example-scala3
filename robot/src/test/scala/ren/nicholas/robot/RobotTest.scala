@@ -7,8 +7,8 @@ import org.scalatest.*
 import org.scalatest.funsuite.AnyFunSuite
 
 class RobotTest extends AnyFunSuite with BeforeAndAfter {
-  var table: Table = null
-  var robot: Robot = null
+  var table: Table = _
+  var robot: Robot = _
 
   before {
     table = Table(5, 5)

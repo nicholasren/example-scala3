@@ -7,7 +7,7 @@ import org.scalatest.*
 import org.scalatest.funsuite.AnyFunSuite
 
 class GameTest extends AnyFunSuite with BeforeAndAfter {
-  var game: Game = null
+  var game: Game = _
 
   before {
     game = Game(5, 5)

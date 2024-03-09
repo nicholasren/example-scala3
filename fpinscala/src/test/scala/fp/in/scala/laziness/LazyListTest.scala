@@ -1,7 +1,5 @@
 package fp.in.scala.laziness
 
-import fp.in.scala.laziness.LazyList
-
 import org.scalatest.funsuite.AnyFunSuite
 
 class LazyListTest extends AnyFunSuite {

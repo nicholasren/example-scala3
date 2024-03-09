@@ -5,8 +5,8 @@ import fp.in.scala
 object LazyList:
   //memorised version of Cons(h, t)
   private def cons[A](head: => A, tail: => LazyList[A]): LazyList[A] = {
-    lazy val _head = head
-    lazy val _tail = tail
+    lazy val _head: A = head
+    lazy val _tail: LazyList[A] = tail
     Cons(() => _head, () => _tail)
   }
 

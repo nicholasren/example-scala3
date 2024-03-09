@@ -33,8 +33,8 @@ class MazeSolver(size: Int):
 
   def solve(): Unit = println(visibleWith(solution.get))
 
-  def visibleWith(path: Path = List(), refresh: Boolean = false): String = {
-    val table =
+  private def visibleWith(path: Path = List(), refresh: Boolean = false): String = {
+    val table: Seq[IndexedSeq[String]] =
       for (x <- 0 until width)
         yield
           for (y <- 0 until height)
@@ -47,15 +47,15 @@ class MazeSolver(size: Int):
   private
   def solution: Option[Path] = {
     var solution: Option[Path] = None
-    var visited = Set[Coordinate]()
-    val queue = mutable.Queue[Path]()
+    var visited: Set[(Int, Int)] = Set[Coordinate]()
+    val queue: mutable.Queue[Path] = mutable.Queue[Path]()
 
     queue.enqueue(List(start))
     while (queue.nonEmpty && solution.isEmpty) {
-      val steps@(x, y) :: _ = queue.dequeue
+      val steps@(x, y) :: _  = queue.dequeue : @unchecked
       for ((dx, dy) <- offsets) {
-        val newX = x + dx
-        val newY = y + dy
+        val newX: Int = x + dx
+        val newY: Int = y + dy
         if (
           inRange(newX, newY) &&
             maze(newX)(newY) == 0 &&
@@ -78,7 +78,7 @@ class MazeSolver(size: Int):
     newX >= 0 && newX < width &&
       newY >= 0 && newY < height
 
-  def cellIcon(x: Int, y: Int, path: Path = List()): String = {
+  private def cellIcon(x: Int, y: Int, path: Path = List()): String = {
     if (maze(x)(y) == 0)
       if ((x, y) == start)
         "⬇️ "
